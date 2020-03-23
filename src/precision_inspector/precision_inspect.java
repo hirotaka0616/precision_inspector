@@ -26,15 +26,14 @@ public class precision_inspect {
 		 *
 		 *
 		 */
-		/*    System.out.println("入力してください。");
-
-        Scanner sc1 = new Scanner(System.in);
-        String line1 = sc1.nextLine();
-
-        System.out.println("入力した文字は=" + line1);
-		 */
 		project project = new project();
+		//すべてのFunctionalitiesを見るには，検出結果が入っているフォルダを指定
+		//一部のFunctionalityを見るには，ファイルを指定,
+		//
 		project.setInputfile(args[0]);
+
+		//BigCloneBenchのファルダを指定
+		//すべてのFunctionalitiesを見るのは，bcd_reducedフォルダを指定
 		project.setSubject_fol(args[1]);
 		project.setResultfile(args[2]);
 		project.setNum_of_random(300);
@@ -43,13 +42,7 @@ public class precision_inspect {
 		ArrayList<Integer> random_num = gernerate_random_num(project);
 		//行抽出
 		generate_extrafile(random_num,project);
-		output_code(project);
-
-
-
-
-
-
+		output_code_one_functionality(project);
 
 
 
@@ -226,7 +219,120 @@ public class precision_inspect {
 
 	}
 
-	public static void output_code(project project) {
+
+	//1つのFuctionalityを見るとき
+	public static void output_code_one_functionality(project project) {
+
+		FileInputStream fi = null;
+		InputStreamReader is = null;
+		BufferedReader br_input = null;
+		try {
+			fi = new FileInputStream("random_file.txt");
+		} catch (FileNotFoundException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+		is = new InputStreamReader(fi);
+		br_input = new BufferedReader(is);
+		String line;
+		try {
+			int line_cnt =1;
+			while ((line = br_input.readLine()) != null) {
+				FileWriter result = new FileWriter(project.getResultfile(), true);
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("");
+				System.out.println("random_file = " + line);
+				String[] clone_data = line.split(",");
+				String line1;
+				String line2;
+				int line1_cnt=0;
+				int line2_cnt=0;
+				int l =0;
+				FileInputStream fi1 = null;
+				InputStreamReader is1 = null;
+				BufferedReader br_input1 = null;
+				FileInputStream fi2 = null;
+				InputStreamReader is2 = null;
+				BufferedReader br_input2 = null;
+				try {
+					fi1 = new FileInputStream(project.getSubject_fol() + "\\" + clone_data[0] + "\\" + clone_data[1]);
+					fi2 = new FileInputStream(project.getSubject_fol() + "\\" + clone_data[4] + "\\" + clone_data[5]);
+				} catch (FileNotFoundException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+				is1 = new InputStreamReader(fi1);
+				br_input1 = new BufferedReader(is1);
+				int cnt = 1;
+				while ((line1 = br_input1.readLine()) != null) {
+					if((line1_cnt >= Integer.parseInt(clone_data[2])-1) && (line1_cnt <= Integer.parseInt(clone_data[3])-1)) {
+						System.out.println(cnt + " : " + line1);
+						cnt++;
+					}
+
+					line1_cnt++;
+				}
+
+
+
+				System.out.println("===============================================================");
+				System.out.println("===============================================================");
+
+				is2 = new InputStreamReader(fi2);
+				br_input2 = new BufferedReader(is2);
+				int cnt2=1;
+				while ((line2 = br_input2.readLine()) != null) {
+					if((line2_cnt >= Integer.parseInt(clone_data[6])-1) && (line2_cnt <= Integer.parseInt(clone_data[7])-1)) {
+						System.out.println(cnt2  + " : " + line2);
+						cnt2++;
+					}
+
+					line2_cnt++;
+
+
+				}
+
+
+				int j =0;
+
+				while(j<100) {
+					System.out.println("");
+					System.out.println("No. " + line_cnt);
+					System.out.println("");
+					System.out.println("Please input y or n");
+					Scanner sc1 = new Scanner(System.in);
+					String input_line = sc1.nextLine();
+					System.out.println("Your input is " + input_line);
+					if(input_line.equals("y") || input_line.equals("n") )  {
+						result.write(line + "," + input_line + "\r\n");
+						result.close();
+						break;
+					}
+					System.out.println("Input correctly");
+
+					j++;
+				}
+				line_cnt++;
+
+
+			}
+		} catch (IOException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
+
+
+	}
+
+	//すべてのFuctionalityを見るとき
+	public static void output_code_all_functionalities(project project) {
 
 		FileInputStream fi = null;
 		InputStreamReader is = null;
